@@ -8,7 +8,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/auth")
@@ -33,9 +35,11 @@ public class LoginController {
         return "auth/home";
     }
 
+
+
     @GetMapping("/register")
     public String Registro(HttpServletRequest request){
-        return "auth/frmRegistro";
+        return "auth/frmregister";
     }
 
     @PostMapping("/save-user")
@@ -43,5 +47,34 @@ public class LoginController {
         usuarioService.guardarUsuario(usuario);
         return "auth/frmLogin";
     }
+
+    @GetMapping("/change-password")
+    public String ChangePassword(@ModelAttribute Usuario usuario ) {
+        return "auth/frmpassword";
+    }
+
+    @PostMapping("/change-password")
+    public String changePassword(@RequestParam("newPassword") String newPassword,
+                                  Authentication authentication,
+                                  RedirectAttributes redirectAttributes) {
+        String username = authentication.getName();
+        try {
+            usuarioService.changePassword(username, newPassword);
+            redirectAttributes.addFlashAttribute("success", "Tu contraseña ha sido actualizada");
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        }
+        return "redirect:/auth/change-password";
+    }
+
+
+
+
+
+
+
+
+
+
 
 }

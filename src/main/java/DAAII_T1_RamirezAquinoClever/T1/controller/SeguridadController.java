@@ -26,6 +26,7 @@ public class SeguridadController {
                 usuarioService.listarUsuario());
         return "seguridad/formusuario";
     }
+
     @PostMapping("/usuario")
     @ResponseBody
     public ResultadoDto registrarUsuario(@RequestBody UsuarioDto usuarioDto){
@@ -62,5 +63,8 @@ public class SeguridadController {
     public List<Usuario> listaUsuario(){
         return usuarioService.listarUsuario();
     }
+
+
+
 
 }

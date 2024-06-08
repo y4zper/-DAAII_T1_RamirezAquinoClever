@@ -14,9 +14,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     //Select * from usuario where nomusuario = ''
     Usuario findByNomusuario(String nomusuario);
 
-    //Llamar a stored procedure
-    //@Query(value = "{call spActualizarUsuario(:nombres,:apellidos,:activo,:idusuario)}",
-    // nativeQuery = true)
+
     @Transactional
     @Modifying
     @Query(value = "UPDATE usuario SET nombres=:nombres, apellidos=:apellidos, " +
